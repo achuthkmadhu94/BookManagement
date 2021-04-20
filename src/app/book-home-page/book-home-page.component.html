@@ -1,0 +1,20 @@
+<app-header></app-header>
+<h5 style="color:slateblue; margin-left: 5cm;">Available Books</h5>
+<br>
+<div class="container-fluid">
+
+  <div style="text-decoration:none; cursor: pointer;" *ngFor="let details of displaybookdetails ; let i = index;" >
+
+    <div class="row" style="max-height: 100cm;" [routerLink]="['/book-details' ,details.BookId]" >
+      <div class="col-sm-1" style="background-color:lavenderblush;">
+        <img src="{{details.Image}}" class="img-responsive" style="max-height: 50px;">
+      </div>
+      <div class="col-sm-2" style="background-color:lavenderblush; ">{{details.BookName}}</div>
+      <div class="col-sm-2" style="background-color:lavenderblush;">{{details.price}}</div>
+      <div class="col-sm-2" style="background-color:lavenderblush;">{{details.Rating}}</div>
+    </div>
+    <br>
+  </div>
+</div>
+
+

@@ -1,0 +1,33 @@
+<app-header></app-header>
+
+<div class="container" *ngFor="let bkloop of displayselectedbookdetails">
+    <div class="row" >
+        <div style=" height :250px;">
+            <img src="{{bkloop.Image}}"
+                class="img-rounded" alt="Cinque Terre" width="504" height="236">
+            <img>
+        </div>
+    </div>
+    <div  style=" width: 504px; text-align: center;">
+        <p style="text-align:centre;">{{bkloop.BookName}}</p>
+            </div>
+    <div class="row">
+        Rating : {{bkloop.Rating}}
+        <br>
+        Price : {{bkloop.price}}
+    </div>
+    <br>
+
+</div>
+<br><br>
+<div class="col-sm-2">
+    <button type="button" class="btn btn-success" 
+    [ngClass]="{addtocart : ispresentincart==1}"
+    *ngIf="!this.isButtonVisible"
+    (click)="AddItemtocart(bookid)">Add To Cart</button>
+    <br>
+    <h5 [ngClass]="{addtocart : ispresentincart==0}"
+    style="color : green;">Item Already Present In Your Cart !</h5>
+    <h5 *ngIf="this.isButtonVisible" style="color: green ;">Item added to cart !!</h5>
+</div>
+

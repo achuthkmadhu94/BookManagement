@@ -1,29 +1,78 @@
-     
-<body *ngIf="!this.authenticuser">      
-    <div class="login">    
-    <form id="login" method="get" action="login.php">    
-        <label><b>User Name     
-        </b>    
-        </label>    
-        <!-- <input type="text" name="Uname" id="Uname" placeholder="Username" (input) = 'oninputusername($event)' > -->
-        <input type="text" name="Uname" id="Uname" placeholder="Username"  > 
-   
-        <label><b>Password     
-        </b>    
-        </label>    
-        <input type="Password" name="Pass" id="Pass" placeholder="Password" >    
-        <br><br>    
-        <input type="button" name="log" id="log" value="Log In Here" (click)="login()">       
-        
-        <br><br>    
-        <input type="checkbox" id="check">    
-        <span>Remember me</span>    
-        <br><br>    
-        Forgot <a href="#">Password</a>  
-        <br><br>
-        <p  id="navlnk2"></p>  
-    </form>     
-</div>    
-</body> 
-<app-header *ngIf="this.authenticuser"></app-header> 
-<router-outlet *ngIf="this.authenticuser"></router-outlet>  
+<div style="margin-top: 200px; margin-right: 400px;">
+    <div class="cont">
+    <form #signin="ngForm" (ngSubmit)="SignIn(signin)" id="signinForm">
+        <div class="form sign-in">
+            <h2>Welcome back,</h2>
+            <label>
+                <span>Email</span>
+                <input type="email"
+                ngModel
+                required 
+                name="email"/>
+            </label>
+            <label>
+                <span>Password</span>
+                <input type="password" 
+                ngModel
+                required
+                name="password"/>
+            </label>
+            <button type="submit" class="submit">Sign In</button>
+        </div>
+    </form>
+
+    <form #signup="ngForm" (ngSubmit)="signUp(signup.value)" id="SignupForm">
+        <div class="sub-cont">
+            <div class="img">
+                <div class="img__text m--up">
+                    <h2>New here?</h2>
+                    <p>Sign up and discover amazing Books</p>
+                </div>
+                <div class="img__text m--in">
+                    <h2>One of us?</h2>
+                    <p>If you already has an account, just sign in. We've missed you!</p>
+                </div>
+                <div class="img__btn">
+                    <span class="m--up">Sign Up</span>
+                    <span class="m--in">Sign In</span>
+                </div>
+            </div>
+            <div class="form sign-up">
+                <h2>Time to feel like home,</h2>
+                <label>
+                    <span>Name</span>
+                    <input type="text" 
+                    ngModel
+                    required
+                    name="username"/>
+                </label>
+                <label>
+                    <span>Email</span>
+                    <input type="email"
+                    ngModel
+                    required
+                    name="email" />
+                </label>
+                <label>
+                    <span>Password</span>
+                    <input type="password"
+                    ngModel
+                    required
+                    name="password" />
+                </label>
+                <button type="submit" class="submit" [disabled] = "!signup.valid" *ngIf="Signupbuttondisable">Sign Up</button>
+                <button type="button" class="submit" [disabled] *ngIf="!Signupbuttondisable">Registering ...</button>
+
+                <button type="button" class="fb-btn">Join with <span>facebook</span></button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<a href="https://dribbble.com/shots/3306190-Login-Registration-form" target="_blank" class="icon-link">
+    <img src="http://icons.iconarchive.com/icons/uiconstock/socialmedia/256/Dribbble-icon.png">
+</a>
+<a href="https://twitter.com/NikolayTalanov" target="_blank" class="icon-link icon-link--twitter">
+    <img src="https://cdn1.iconfinder.com/data/icons/logotypes/32/twitter-128.png">
+</a>
+</div>

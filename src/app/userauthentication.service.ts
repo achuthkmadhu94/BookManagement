@@ -12,7 +12,11 @@ export class UserauthenticationService {
     },
        {userid: 2 ,
         username : 'q',
-        password : 'q' }
+        password : 'q' },
+
+        {userid:3,
+         username:'admin',
+         password:'a'}
     ]
     authenticated! : boolean;
     constructor() { }
@@ -23,8 +27,11 @@ export class UserauthenticationService {
             if(this.userslist[i].username==username1 && this.userslist[i].password==password1)
             {
                 this.authenticated = true;
+                
+                return this.authenticated;
             }
             else{
+               
                 this.authenticated=false;
             }
         }

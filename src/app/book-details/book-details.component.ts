@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core'
-import {bookdetails} from '../BookDetails.services'
-import {ActivatedRoute, Route} from '@angular/router'
-import{bookdetailsarray} from '../Bookdetails.Module'
-import {CookieService} from 'ngx-cookie-service'
+import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute, Route} from '@angular/router';
+//import {CookieService} from 'ngx-cookie-service'
+import { BookConfigServiceService } from '../Configuration service/book-config-service.service';
+import { books } from '../Modules/Books.model';
 
 
 @Component({
@@ -12,46 +12,69 @@ import {CookieService} from 'ngx-cookie-service'
 })
 export class BookDetailsComponent implements OnInit {
 
-  bookid!: number;
-  bookName! : string;
-  bookImage! :string;
-  bookRating! : string;
-  bookPrice! : string;
-  displayselectedbookdetails : bookdetailsarray[]=[];
-  isButtonVisible : boolean=false;
-  Checkifbookispresentincart : bookdetailsarray[]=[];
-  ispresentincart : number=0 ;
-  visibility : string = "visible" ;
+  bookid!: string;
+  displayselectedbookdetails : any;
+  cart : any;
+  currentuserid : any =localStorage.getItem('UserId');
+  _bookname : string ="";
+  _bookauthor : string ="";
+  _bookimage : string ="";
+  _bookrating : string ="";
+  _bookdescription : string ="";
 
+  constructor(
+    private route : ActivatedRoute ,
+    private config : BookConfigServiceService) { }
 
-  constructor(private bdetails : bookdetails , private route : ActivatedRoute ,private cookie : CookieService) { }
 
   ngOnInit(): void {
+     
     this.bookid = this.route.snapshot.params['id'];
-    this.displayselectedbookdetails = this.bdetails.getallbookdetailsbyid(this.bookid);
-
-   if(this.cookie.check('addedtocart'))
-   {
-    this.Checkifbookispresentincart = JSON.parse(this.cookie.get('addedtocart')) ;
-    for (let i=0 ;i <this.Checkifbookispresentincart.length ;i++){
-      if(this.Checkifbookispresentincart[i].BookId == this.bookid ){
-        this.ispresentincart=1;       
-      }
+    if(this.bookid!=null) {
+      this.GetBookDetailsById(); 
     }
-   }
-   else{
-    this.ispresentincart=0;
-   }
-
-   
   }
 
-  AddItemtocart(cartid : number){
-    this.bdetails.addtocart(cartid);
-     this.isButtonVisible = true;
-     this.visibility= "hidden";
+  GetBookDetailsById(){ 
+    this.config.GetBookDetailsByID(this.bookid)
+    .subscribe(((responsedatas:any)=>{
+      this.displayselectedbookdetails = responsedatas;
+      
+      this._bookimage=this.displayselectedbookdetails['BookImageURL'];
+      this._bookname =this.displayselectedbookdetails['BookName'];
+      this._bookauthor=this.displayselectedbookdetails['BookAuthor'];
+      this._bookdescription=this.displayselectedbookdetails['BookDescription'];
+      this._bookrating = this.displayselectedbookdetails['BookRating'];
 
-  }  
+      this.ngAfterViewInit()
+    }))
+ }
 
+ ngAfterViewInit() {
+  // Hack: Scrolls to top of Page after page view initialized
+  let top = document.getElementById('top');
+  if (top !== null) {
+    top.scrollIntoView();
+    top = null;
+  }
+}
+
+AddToCart(){
+
+   // console.log(this.displayselectedbookdetails['BookAuthor']);
+  
+  this.cart = {BookId : this.bookid , UserId : this.currentuserid ,
+    BookImageURL : this.displayselectedbookdetails['BookImageURL'],
+    BookName: this.displayselectedbookdetails['BookName'] ,
+    BookAuthor:this.displayselectedbookdetails['BookAuthor'],
+     BookPrice : this.displayselectedbookdetails['BookPrice']}
+
+    // console.log(this.cart);
+     
+     this.config.AddBookToCart(this.cart).subscribe(responsedata=>{
+       console.log(responsedata);
+     })
+
+}
 
 }

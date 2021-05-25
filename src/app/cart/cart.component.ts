@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core'
-import{bookdetails} from '../BookDetails.services'
-import {bookdetailsarray} from '../Bookdetails.Module'
-import{CookieService} from 'ngx-cookie-service'
+import { CookieService } from 'ngx-cookie-service'
+import { BookConfigServiceService } from '../Configuration service/book-config-service.service';
+import { map } from 'rxjs/operators';
+import { books } from '../Modules/Books.model';
 
 @Component({
   selector: 'app-cart',
@@ -10,32 +11,53 @@ import{CookieService} from 'ngx-cookie-service'
 })
 export class CartComponent implements OnInit {
 
-  displaybookdetails:bookdetailsarray[]=[];
-
-
   bdfromcookie! : string;
-  emptyflag : boolean = false;
+  emptyflag : boolean = true;
+  userid : any ;
+  cartdetails : any[]=[]; 
+  TotalAmount : number = 0 ;
 
-  constructor(private bookdetails : bookdetails, private cookies :CookieService){
+  constructor( private cookies :CookieService , private config : BookConfigServiceService){
   }
 
   ngOnInit(): void {
-   // this.displaybookdetails = this.bookdetails.getallbooks();
-   if(this.cookies.check('addedtocart')){
-    this.displaybookdetails = JSON.parse(this.cookies.get('addedtocart'));
-    this.emptyflag = true;
-   }
-   else{
-     this.emptyflag=false;
-   }
-   // console.log(this.displaybookdetails1[0]); 
+    this.cartdetails= []; 
+    this.TotalAmount=0;
+    this.GetUsersBooksAddedToCart ();
   }
 
-  removeItemfromcart(removethisbookid :number)
-  {
-    //alert(removethisbookid);
-    this.bookdetails.removefromcart(removethisbookid);
-    this.ngOnInit();
+  GetUsersBooksAddedToCart () {
+    this.cartdetails= []; 
+    this.TotalAmount=0;
+     this.userid=localStorage.getItem('UserId');
+     this.config.GetAllBooksInTheCartForAUser(this.userid)
+     .pipe(map((responsedata : {[key : string]:any} ) =>{
+      const displaybookdetails:any[]=[];
+      for (const key in responsedata){
+        if(responsedata.hasOwnProperty(key)){
+          this.emptyflag=false;
+          displaybookdetails.push({...responsedata[key], id:key});
+           this.TotalAmount = this.TotalAmount+ Number(responsedata[key].BookPrice);
+        }    
+      }
+      return displaybookdetails;
+    }))
+    .subscribe(bookdata =>{
+      //console.log(displaybookdetails);
+      this.cartdetails = bookdata;
+     // console.log(this.cartdetails);
+      
+    })
   }
 
+  DeleteBook(booktodelete : any){
+   // console.log(booktodelete.BookId);
+    this.config.DeleteBookFromCart(booktodelete.id).subscribe(responsedatas =>{
+    // console.log(this.cartdetails.length);
+      if(this.cartdetails.length===1){
+        this.emptyflag=true;
+      }
+      this.GetUsersBooksAddedToCart();
+    })
+  }
 }

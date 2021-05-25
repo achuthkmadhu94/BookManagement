@@ -1,0 +1,92 @@
+
+<ngx-spinner></ngx-spinner>
+<form #addbooks="ngForm" (ngSubmit)="AddBook(addbooks.value)" id="Addbookform">
+    
+    <div>
+    <p>
+        <mat-label>Add Book</mat-label>
+      </p>
+      <p>
+        <mat-form-field appearance="legacy">
+          <mat-label>BookName</mat-label>
+          <input matInput placeholder="Placeholder" ngModel name="BookName" required />
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="standard">
+          <mat-label>BookDescription</mat-label>
+          <input
+            matInput
+            placeholder="Placeholder"
+            ngModel
+            name="BookDescription"
+            required
+          />
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="standard">
+          <mat-label>BookType</mat-label>
+          <select matNativeControl 
+          ngModel 
+          name="BookType" 
+          required>
+            <option value="Action and Adventure">Action and Adventure</option>
+            <option value="Comic">Comic </option>
+            <option value="Fantasy">Fantasy</option>
+            <option value="Historical Fiction">Historical Fiction</option>
+            <option value="Auto Biography">Auto Biography</option>
+            <option value="Horror">Horror</option>
+          </select>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="standard">
+          <mat-label>BookPrice</mat-label>
+          <input matInput placeholder="Placeholder" 
+          ngModel 
+          name="BookPrice"
+          required />
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="standard">
+          <mat-label>BookAuthor</mat-label>
+          <input matInput placeholder="Placeholder" 
+          ngModel 
+          name="BookAuthor"
+          required />
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="standard">
+          <mat-label>BookRating</mat-label>
+          <input matInput placeholder="Placeholder" 
+          ngModel 
+          name="BookRating"
+          required />
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="standard">
+          <mat-label>BookImageURL</mat-label>
+          <input matInput placeholder="Placeholder" 
+          ngModel 
+          name="BookImageURL"
+          required />
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="fill">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker"
+            ngModel ="picker.value"
+            name="PublishedDate" >
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+      </p>
+  
+    <button type="submit" [disabled]="!addbooks.valid">Add Book</button>
+    </div>
+  </form>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import{bookdetails} from '../BookDetails.services'
-import {bookdetailsarray} from '../Bookdetails.Module';
+import { BookConfigServiceService } from '../Configuration service/book-config-service.service';
+import {map, retryWhen} from 'rxjs/operators';
+import {books} from '../Modules/Books.model';
 
 @Component({
   selector: 'app-book-home-page',
@@ -9,13 +10,32 @@ import {bookdetailsarray} from '../Bookdetails.Module';
 })
 export class BookHomePageComponent implements OnInit {
 
-  displaybookdetails!:bookdetailsarray[];
-
-  constructor(private bookdetails : bookdetails){
+  displaybookdetails:books[]=[];
+  //bookarray=[];
+  constructor(private config : BookConfigServiceService){
   }
 
   ngOnInit(): void {
-    this.displaybookdetails = this.bookdetails.getallbooks();
+    this.GetAllBooks();
+  }
+
+  GetAllBooks(){
+    this.config.GetAllBookDetails()
+    .pipe(map((responsedata : {[key : string]:books} ) =>{
+      const displaybookdetails:books[]=[];
+      for (const key in responsedata){
+        if(responsedata.hasOwnProperty(key)){
+          displaybookdetails.push({...responsedata[key], id:key});
+        }    
+      }
+      return displaybookdetails;
+    }))
+    .subscribe(bookdata =>{
+      //console.log(bookdata);
+      this.displaybookdetails = bookdata;
+     //console.log(this.displaybookdetails);
+    })
+    
   }
 
 }

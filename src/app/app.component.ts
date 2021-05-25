@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AutheticateduserService } from './Authentication/autheticateduser.service';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +7,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  //isloginsuccessfull:boolean = false;
+
+  constructor(public _authentic : AutheticateduserService){}
+
   title = 'Bookmanagementsystem2';
-  isloginsuccessfull :boolean =true;
+
+  //if(this._authentic.loggedIn()){}
+  
 }

@@ -1,27 +1,51 @@
-<app-header></app-header>
-<h5 style="color:slateblue; margin-left: 5cm;">Your Cart</h5>
-<br>
-<div class="container-fluid" *ngIf="this.emptyflag">
 
-  <div style="text-decoration:none; cursor: pointer;"
-   *ngFor="let details of displaybookdetails ; let i = index" >
-<div>
-    <div class="row" style="max-height: 100cm;" >
-      <div class="col-sm-1" style="background-color:lavenderblush;">
-        <img src="{{details.Image}}" class="img-responsive" style="max-height: 50px;">
+<html>
+  <head>
+  <style></style>
+  </head>
+  <body>
+    <div *ngIf="!this.emptyflag" style="border:none;">
+    <div class="main" >
+      <div class="column1">
+        <h1>Shopping Cart </h1>
       </div>
-      <div class="col-sm-2" style="background-color:lavenderblush; ">{{details.BookName}}</div>
-      <div class="col-sm-2" style="background-color:lavenderblush;">{{details.price}}</div>
-      <div class="col-sm-2" style="background-color:lavenderblush;">{{details.Rating}}</div>
-      <div class="col-sm-2" style="background-color:lavenderblush;">
-        <button type="button" class="btn btn-success" (click)="removeItemfromcart(details.BookId)">Remove</button>
+      <h3 id="bottom">Price</h3>
     </div>
+  
+  <div  class="grid-container" id="top" *ngFor="let details of cartdetails; let i = index">
+    <div class="grid-item item1" >
+      <img class ="img1" src="{{details.BookImageURL}}"  />
     </div>
-    <br>
+    <div class="grid-item item2" >
+        <p>{{ details.BookName }}</p>
+        <h3>by :{{ details.BookAuthor}}  </h3>
+        
+        <button type="button" class="btn btn-light"  (click)="DeleteBook(details)"
+        style ="position:absolute;  bottom:0; left:0;margin-bottom: 10px; "
+        >Delete</button>
+    </div>
+    <div class="grid-item item3">
+      <h3> ₹ {{ details.BookPrice }}</h3>
+      
   </div>
-</div>
-</div>
-<div *ngIf="!this.emptyflag">
-  <p>Your cart is Empty !!!</p>
-</div>
+  </div>
+  <div  class="main" style="border-bottom: none;">
+    <div class="column1">
+      
+    </div>
+    <h3 id="bottom" style="height : 60px;">Total Price : ₹ {{TotalAmount}} </h3>
+    <br>
+    <section>
+      <button mat-flat-button color="primary" id="bottom">Checkout Items</button>
+    </section>
+  </div>
+  </div>
+<div *ngIf="this.emptyflag" style="width: 100%; height: 700px;">
+  <img  class="img2" style="  width: 100%; height: 700px; border: none;"src="assets/Emptycart.png">
+</div> 
+  
+  </body>
+  </html>
+  
+
 

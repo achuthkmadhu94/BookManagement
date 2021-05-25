@@ -1,0 +1,39 @@
+ 
+<html>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <style></style>
+
+    <body class="w3-content" style="max-width: 1400px">
+      
+        <div class="main" >
+            <div class="column1">
+              <h1>{{booktype}} </h1>
+            </div>
+            <h3 id="bottom"></h3>
+          </div>
+          <br>
+      <!--Content -->
+      <!-- <div class="  w3-grayscale">
+        <div class="w3-col l3 "  style="float:left;" *ngFor="let details of displaybookdetails; let i = index">
+          <div class="w3-container" style="float:left;" [routerLink]="['/book-details' ,details.id]" >
+            <img src="{{details.BookImageURL}}" style="width: 100%;height: 400px;" />
+            <p>{{ details.BookName }}<br /><b>{{ details.BookPrice }}</b></p>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="grid-container">
+        <div *ngFor="let details of displaybookdetails; let i = index" >
+          <img src="{{details.BookImageURL}}" style="width: 100%;height: 400px;" [routerLink]="['/book-details' ,details.id]" />
+            <h4 style="text-align: left;">{{ details.BookName }}</h4>
+           <h4 style="text-align: left;"> <b>₹ {{ details.BookPrice }}</b></h4>
+        </div>
+        </div>
+    </body>
+  </html>
+  
